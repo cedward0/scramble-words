@@ -1,0 +1,50 @@
+POST http://localhost:3000/api/scramble
+Content-Type: application/x-www-form-urlencoded
+
+str1=content&str2=content
+
+> {%
+    client.test("Success", function (){
+    client.assert(response.status=200, "Response is not 200")
+    client.assert(response.body={"result":true})
+}) %}
+
+###
+POST http://localhost:3000/api/scramble
+Content-Type: application/x-www-form-urlencoded
+
+str1=qwertyuiopasdfghjklzxcvbnm&str2=qwertyuiopasdfghjklzxcvbnm
+
+> {%
+    client.test("OK", function (){
+    client.assert(response.body="{\"result\":false}")
+}) %}
+
+###
+POST http://localhost:3000/api/scramble
+Content-Type: application/x-www-form-urlencoded
+
+str1=1&str2=content
+
+> {% 
+    client.test("Success", function (){
+    client.assert(response.status=300, "Response is not 300")
+}) %}
+
+###
+POST http://localhost:3000/api/scramble
+Content-Type: application/x-www-form-urlencoded
+
+str1=a&str2==
+
+###
+GET http://localhost:3000/api/scramble?str1=aa&str2=aa
+Content-Type: application/x-www-form-urlencoded
+
+> {%
+    client.test("Success", function (){
+    client.assert(response.status=200, "Response is not 200")
+    client.assert(response.body={"result":true})
+}) %}
+
+
